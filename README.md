@@ -14,7 +14,35 @@
 Add a `mount` provider `windows_smb` to enable mapping windows shares to drive letters using Puppet
 
 ## Usage
-See reference and examples
+
+### Mapping a drive
+
+```puppet
+mount { "D:":
+  ensure   => mounted,
+  provider => windows_smb,
+  device   => "//VAGRANT-2012-R2/shared",
+  options  => '{"user":"VAGRANT-2012-R2/test","password":"Password123!"}',
+}
+```
+
+## Notes
+* You *must* specify the drive letter as the resource name, in capitals, with a colon
+* To avoid a sea of backslashes, use a forward slash in any share names and user names.  The provider will convert them for you
+* options semi-officially has to be a string acording to the type documentation... but no one said I couldn't load the string with JSON ;-)
+* Omit password if there isn't one
+* Other options such as `dump`, `pass` etc are ignored
+* We claim the default `mount` provider on windows
+
+### Un-mapping a drive
+
+```puppet
+mount { "D:":
+  ensure   => absent,
+  provider => windows_smb,
+}
+```
+
 
 ## Reference
 [generated documentation](https://rawgit.com/GeoffWilliams/puppet-mount_windows_smb/master/doc/index.html).
@@ -44,3 +72,7 @@ make
 ```
 
 See `.travis.yml` for a working CI example
+
+
+## Acknowledgement
+* Thanks to Paul Tötterman and Rob Reynolds - I was able to construct a working provider from the notes left on [MODULES-4927](https://tickets.puppetlabs.com/browse/MODULES-4927)
