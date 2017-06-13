@@ -33,6 +33,7 @@ mount { "D:":
 * Omit password if there isn't one
 * Other options such as `dump`, `pass` etc are ignored
 * We claim the default `mount` provider on windows
+* Havent tested what happens if the UNC path is changed
 
 ### Un-mapping a drive
 
