@@ -87,13 +87,17 @@ Puppet::Type.type(:mount).provide(:windows_smb, :parent => Puppet::Provider) do
     end
 
     mounts.each { |mount|
-      status = execute(['net', 'use', mount['Name']]).to_s.split("\n").reject { |line|
-        ! line.start_with?("Status")
-      }.map { |line|
-        line.split.last.strip
-      }.join
+      if mount['ProviderName'].nil?
+        mounts.delete(mount)
+      else
+        status = execute(['net', 'use', mount['Name']]).to_s.split("\n").reject { |line|
+          ! line.start_with?("Status")
+        }.map { |line|
+          line.split.last.strip
+        }.join
 
-      mount["Status"] = status
+        mount["Status"] = status
+      end
     }
 
     mounts.map { |mount|
