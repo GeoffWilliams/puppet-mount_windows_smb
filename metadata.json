@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-mount_windows_smb",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "geoffwilliams",
   "summary": "Add a `mount` provider `windows_smb` to enable mapping windows shares to drive letters using Puppet",
   "license": "Apache-2.0",
