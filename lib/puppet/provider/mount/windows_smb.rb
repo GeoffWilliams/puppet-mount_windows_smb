@@ -33,7 +33,9 @@ Puppet::Type.type(:mount).provide(:windows_smb, :parent => Puppet::Provider) do
   end
 
   def create
-    opts_json   = JSON.parse(resource[:options]||{})
+	opts_json = (resource[:options].class.name == "String") ?
+		JSON.parse(resource[:options]||{}): {}
+
 
     unc_path = to_unc(resource[:device])
     cmd = ["net", "use", resource[:name], unc_path]
